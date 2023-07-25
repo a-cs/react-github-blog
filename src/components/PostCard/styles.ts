@@ -56,7 +56,6 @@ export const TopContainer = styled.div`
 `
 
 export const Content = styled.div`
-    white-space: pre-wrap;
     max-height: 6.25rem;
     overflow: hidden;
     color: ${(props) => props.theme['base-text']};

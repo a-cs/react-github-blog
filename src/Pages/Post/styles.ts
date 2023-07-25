@@ -48,6 +48,10 @@ export const BottomContainer = styled.div`
 `
 
 export const Content = styled.div`
-    width: 100%;
+    white-space: pre-wrap;
+    max-width: 100%;
     padding: 2.5rem 2rem;
+    img {
+        max-width: 100%;
+    }
 `

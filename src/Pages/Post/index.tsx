@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Header } from '../../components/Header'
 import { IconLabel } from '../../components/IconLabel'
 import { LinkIcon } from '../../components/LinkIcon'
@@ -11,11 +12,46 @@ import {
     TopContainer,
 } from './styles'
 import { LinkBack } from '../../components/LinkBack'
+import axios from 'axios'
+import { formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 import { useParams } from 'react-router-dom'
 
+export interface Post {
+    number: number
+    title: string
+    created_at: Date
+    body: string
+    comments: number
+    html_url: string
+    user: {
+        login: string
+    }
+}
+
 export function Post() {
+    const username = 'a-cs'
+    const repo = 'react-github-blog'
     const { issueNumber } = useParams()
     console.log('issueNumber:', issueNumber)
+
+    const [post, setPost] = useState<Post>()
+
+    async function getGithubIssuesData() {
+        // const data = apiData
+        const { data } = await axios.get(
+            `https://api.github.com/repos/${username}/${repo}/issues/${issueNumber}`,
+        )
+        console.log('issue:', data)
+        setPost(data)
+    }
+
+    useEffect(() => {
+        getGithubIssuesData()
+    }, [])
     return (
         <div>
             <Header />
@@ -24,31 +60,42 @@ export function Post() {
                     <TopContainer>
                         <LinkBack />
                         <LinkIcon
-                            href="https://github.com/a-cs"
+                            href={post?.html_url || ''}
                             text="ver no github"
                         />
                     </TopContainer>
-                    <h1>JavaScript data types and data structures</h1>
+                    <h1>{post?.title}</h1>
                     <BottomContainer>
-                        <IconLabel icon={faGithub} label="a-cs" />
-                        <IconLabel icon={faBuilding} label="Há 1 dia" />
-                        <IconLabel icon={faUserGroup} label="5 comentários" />
+                        <IconLabel
+                            icon={faGithub}
+                            label={post?.user.login || ''}
+                        />
+                        <IconLabel
+                            icon={faBuilding}
+                            label={
+                                formatDistanceToNow(
+                                    new Date(post?.created_at || '2023-01-01'),
+                                    {
+                                        addSuffix: true,
+                                        locale: ptBR,
+                                    },
+                                ) || ''
+                            }
+                        />
+                        <IconLabel
+                            icon={faUserGroup}
+                            label={`${post?.comments} comentários`}
+                        />
                     </BottomContainer>
                 </PostInfo>
                 <Content>
-                    <p>
-                        Programming languages all have built-in data structures,
-                        but these often differ from one language to another.
-                        This article attempts to list the built-in data
-                        structures available in JavaScript and what properties
-                        they have. These can be used to build other data
-                        structures. Wherever possible, comparisons with other
-                        languages are drawn. Dynamic typing JavaScript is a
-                        loosely typed and dynamic language. Variables in
-                        JavaScript are not directly associated with any
-                        particular value type, and any variable can be assigned
-                        (and re-assigned) values of all types:
-                    </p>
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeRaw]}
+                        transformLinkUri={false}
+                    >
+                        {post?.body || ''}
+                    </ReactMarkdown>
                 </Content>
             </PostContainer>
         </div>
