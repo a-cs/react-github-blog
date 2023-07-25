@@ -2,10 +2,11 @@ import { styled } from 'styled-components'
 
 export const PostsListContainer = styled.main`
     margin-top: 4.5rem;
+    margin-bottom: 14.625rem;
     width: 100%;
 `
 
-export const TopContainer = styled.header`
+export const TopContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -40,4 +41,13 @@ export const Input = styled.input`
     &:focus {
         border-color: ${(props) => props.theme.blue};
     }
+`
+
+export const ListContainer = styled.div`
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
 `
