@@ -9,5 +9,10 @@ export const HeaderContainer = styled.header`
     background-size: cover;
     display: flex;
     justify-content: center;
-    align-items: center;
+
+    img {
+        width: 9.25rem;
+        height: 6.125rem;
+        margin-top: 4rem;
+    }
 `

@@ -15,6 +15,8 @@ export const GlobalStyle = createGlobalStyle`
 	body{
 		background-color: ${(props) => props.theme['base-background']};
 		color: ${(props) => props.theme['base-text']};
+		width: 100vw;
+		overflow-x: hidden;
 	}
 
 	body, input, textarea, button{

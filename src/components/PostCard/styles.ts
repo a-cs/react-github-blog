@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 export const PostCardContainer = styled.article`
@@ -6,7 +5,7 @@ export const PostCardContainer = styled.article`
     height: 16.25rem;
 `
 
-export const LinkContainer = styled(Link)`
+export const LinkContainer = styled.div`
     text-decoration: none;
     width: 100%;
     height: 100%;

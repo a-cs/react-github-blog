@@ -1,6 +1,6 @@
 import { Header } from '../../components/Header'
 import { IconLabel } from '../../components/IconLabel'
-import { Link } from '../../components/Link'
+import { LinkIcon } from '../../components/LinkIcon'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
     AuthorInfo,
@@ -22,7 +22,10 @@ export function Blog() {
                     <ColumnContainer>
                         <TopContainer>
                             <h1>Anderson Carneiro Sousa</h1>
-                            <Link />
+                            <LinkIcon
+                                href="https://github.com/a-cs"
+                                text="github"
+                            />
                         </TopContainer>
                         <h2>
                             Tristique volutpat pulvinar vel massa, pellentesque

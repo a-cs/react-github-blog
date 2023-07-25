@@ -1,6 +1,7 @@
 import { styled } from 'styled-components'
 
 export const BlogContainer = styled.div`
+    min-height: 100vh;
     max-width: 54rem;
     width: 100%;
     margin: 0 auto;
