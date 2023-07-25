@@ -10,6 +10,7 @@ import {
     TopContainer,
 } from './styles'
 import { faBuilding, faUserGroup } from '@fortawesome/free-solid-svg-icons'
+import { PostsList } from '../../components/PostsList'
 
 export function Blog() {
     return (
@@ -39,7 +40,7 @@ export function Blog() {
                         </BottomContainer>
                     </ColumnContainer>
                 </AuthorInfo>
-                <h1>Blog</h1>
+                <PostsList />
             </BlogContainer>
         </div>
     )
