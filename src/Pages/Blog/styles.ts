@@ -30,6 +30,7 @@ export const AuthorInfo = styled.div`
     }
 
     h2 {
+        width: 100%;
         font-size: 1rem;
         font-weight: 400;
     }
@@ -40,6 +41,7 @@ export const ColumnContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 `
 
 export const TopContainer = styled.div`

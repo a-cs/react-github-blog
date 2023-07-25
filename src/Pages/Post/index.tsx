@@ -11,8 +11,11 @@ import {
     TopContainer,
 } from './styles'
 import { LinkBack } from '../../components/LinkBack'
+import { useParams } from 'react-router-dom'
 
 export function Post() {
+    const { issueNumber } = useParams()
+    console.log('issueNumber:', issueNumber)
     return (
         <div>
             <Header />

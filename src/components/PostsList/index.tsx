@@ -1,4 +1,4 @@
-import { PostCard } from '../PostCard'
+import { PostCard, PostData } from '../PostCard'
 import {
     Input,
     ListContainer,
@@ -6,21 +6,22 @@ import {
     TopContainer,
 } from './styles'
 
-export function PostsList() {
+interface PostsListProps {
+    postList: PostData[]
+}
+
+export function PostsList({ postList }: PostsListProps) {
     return (
         <PostsListContainer>
             <TopContainer>
                 <h1>Publicações</h1>
-                <h2>6 Publicações</h2>
+                <h2>{postList.length} Publicações</h2>
             </TopContainer>
             <Input type="text" placeholder="Buscar conteúdo" />
             <ListContainer>
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
-                <PostCard />
+                {postList.map((post) => {
+                    return <PostCard key={post.number} {...post} />
+                })}
             </ListContainer>
         </PostsListContainer>
     )

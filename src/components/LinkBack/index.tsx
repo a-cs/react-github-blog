@@ -9,7 +9,7 @@ export function LinkBack() {
     return (
         <LinkBackContainer>
             <FontAwesomeIcon icon={faChevronLeft} />
-            <Link to={location.state.from}>voltar</Link>
+            <Link to={location.state?.from || ''}>voltar</Link>
         </LinkBackContainer>
     )
 }
