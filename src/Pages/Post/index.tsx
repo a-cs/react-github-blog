@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Header } from '../../components/Header'
 import { IconLabel } from '../../components/IconLabel'
 import { LinkIcon } from '../../components/LinkIcon'
@@ -7,6 +7,7 @@ import { faBuilding, faUserGroup } from '@fortawesome/free-solid-svg-icons'
 import {
     BottomContainer,
     Content,
+    MessageContainer,
     PostContainer,
     PostInfo,
     TopContainer,
@@ -39,19 +40,30 @@ export function Post() {
     console.log('issueNumber:', issueNumber)
 
     const [post, setPost] = useState<Post>()
+    const [searchError, setSearchError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
-    async function getGithubIssuesData() {
-        // const data = apiData
-        const { data } = await axios.get(
-            `https://api.github.com/repos/${username}/${repo}/issues/${issueNumber}`,
-        )
-        console.log('issue:', data)
-        setPost(data)
-    }
+    const getGithubIssueData = useCallback(async () => {
+        try {
+            setIsLoading(true)
+            const { data } = await axios.get(
+                `https://api.github.com/repos/${username}/${repo}/issues/${issueNumber}`,
+            )
+            console.log('issue:', data)
+            setPost(data)
+            setIsLoading(false)
+        } catch (error) {
+            const { response }: any = error
+            const { data } = response
+            const { message } = data
+            setSearchError(message)
+            setIsLoading(false)
+        }
+    }, [issueNumber])
 
     useEffect(() => {
-        getGithubIssuesData()
-    }, [])
+        getGithubIssueData()
+    }, [getGithubIssueData])
     return (
         <div>
             <Header />
@@ -88,15 +100,34 @@ export function Post() {
                         />
                     </BottomContainer>
                 </PostInfo>
-                <Content>
-                    <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        rehypePlugins={[rehypeRaw]}
-                        transformLinkUri={false}
-                    >
-                        {post?.body || ''}
-                    </ReactMarkdown>
-                </Content>
+                {!isLoading ? (
+                    <>
+                        {!post && (
+                            <MessageContainer
+                                isError={searchError.length !== 0}
+                            >
+                                <p>{searchError}</p>
+                            </MessageContainer>
+                        )}
+                        {post && (
+                            <Content>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    rehypePlugins={[rehypeRaw]}
+                                    transformLinkUri={false}
+                                >
+                                    {post?.body || ''}
+                                </ReactMarkdown>
+                            </Content>
+                        )}
+                    </>
+                ) : (
+                    <>
+                        <MessageContainer isError={false}>
+                            <p>Loading...</p>
+                        </MessageContainer>
+                    </>
+                )}
             </PostContainer>
         </div>
     )

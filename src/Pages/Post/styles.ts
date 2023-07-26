@@ -48,10 +48,31 @@ export const BottomContainer = styled.div`
 `
 
 export const Content = styled.div`
+    margin-bottom: 14.625rem;
     white-space: pre-wrap;
     max-width: 100%;
     padding: 2.5rem 2rem;
     img {
         max-width: 100%;
+    }
+`
+
+interface MessageContainerProps {
+    isError: boolean
+}
+
+export const MessageContainer = styled.div<MessageContainerProps>`
+    margin-top: 3rem;
+    border-radius: 8px;
+    box-shadow: 0 0 0 2px
+        ${(props) => (!props.isError ? props.theme.blue : '#dd2323')};
+    padding: 0.75rem 1rem;
+    transition: 0.2s;
+
+    p {
+        color: ${(props) =>
+            !props.isError ? props.theme['base-subtitle'] : props.theme.white};
+        font-size: 1.125rem;
+        font-weight: 700;
     }
 `
